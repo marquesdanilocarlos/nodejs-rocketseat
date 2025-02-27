@@ -1,13 +1,22 @@
 import http from 'node:http';
 
-const server = http.createServer((req, res) => {
+const server = http.createServer(async (req, res) => {
     const {method, url} = req;
 
-    if (method === "GET" && url === "/product") {
+    if (method === "GET" && url === "/products") {
         return res.end('Lista de produtos')
     }
 
-    if (method === "POST" && url === "/product") {
+    if (method === "POST" && url === "/products") {
+
+        const buffers = [];
+
+        for await (const chunk of req) {
+            buffers.push(chunk);
+        }
+
+        console.log(Buffer.concat(buffers).toString());
+
         return res.end('Cadastro de produtos')
     }
 

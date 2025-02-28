@@ -20,6 +20,7 @@ export class Database {
         }
 
         this.database[table].push(data);
+        this.persist();
     }
 
     select(table) {

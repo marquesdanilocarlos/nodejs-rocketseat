@@ -6,6 +6,13 @@ export class Database {
     database = {};
 
     constructor() {
+
+        fs.readFile(DATABASE_PATH, 'utf8').then((data) => {
+            this.database = JSON.parse(data);
+        }).catch(() => {
+            console.log('Não foi possível recuperar os dados do arquivo.')
+        });
+
         this.persist();
     }
 
@@ -24,6 +31,9 @@ export class Database {
     }
 
     select(table) {
+
+
+
         return this.database[table];
     }
 }

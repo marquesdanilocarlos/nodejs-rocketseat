@@ -30,4 +30,8 @@ export default class Database {
         this.#database[table].push(data);
         this.#persist();
     }
+
+    select(table) {
+        return this.#database[table] ?? [];
+    }
 }

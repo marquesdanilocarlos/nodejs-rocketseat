@@ -57,4 +57,15 @@ export default class Database {
         this.#database[table][rowIndex] = {...this.#database[table][rowIndex], ...data};
         this.#persist();
     }
+
+    remove(table, id) {
+        const rowIndex = this.#database[table].findIndex(row => row.id === id);
+
+        if (rowIndex < 0) {
+            return;
+        }
+
+        this.#database[table].splice(rowIndex, 1);
+        this.#persist();
+    }
 }

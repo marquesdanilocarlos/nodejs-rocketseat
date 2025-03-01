@@ -17,7 +17,7 @@ export default class Database {
         );
     }
 
-    #persist(){
+    #persist() {
         fs.writeFile(DATABASE_PATH, JSON.stringify(this.#database));
     }
 
@@ -31,7 +31,19 @@ export default class Database {
         this.#persist();
     }
 
-    select(table) {
-        return this.#database[table] ?? [];
+    select(table, filters) {
+        let data = this.#database[table] ?? [];
+
+        if (!filters) {
+            return data;
+        }
+
+        return data.filter(row => {
+            return Object.entries(filters)
+                .some(
+                    ([key, value]) => row[key.toLowerCase()] === value.toLowerCase()
+                );
+
+        });
     }
 }

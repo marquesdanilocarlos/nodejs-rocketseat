@@ -1,5 +1,6 @@
 export default function close({request, response, database}) {
     const {id} = request.params;
-    database.update('tickets', id, {status: 'closed', updatedAt: new Date()});
+    const {solution} = request.body ?? '';
+    database.update('tickets', id, {status: 'closed', solution, updatedAt: new Date()});
     response.end();
 }

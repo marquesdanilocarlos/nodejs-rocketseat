@@ -2,8 +2,8 @@ export const tickets = [
     {
         method: 'GET',
         path: '/tickets',
-        controller: () => {
-
+        controller: (request, response) => {
+            response.end('Rota de listagem de tickets');
         }
     },
     {

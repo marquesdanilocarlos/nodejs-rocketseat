@@ -1,16 +1,15 @@
+import create from '../controllers/tickets/create.js'
+import list from '../controllers/tickets/list.js'
+
 export const tickets = [
     {
         method: 'GET',
         path: '/tickets',
-        controller: (request, response) => {
-            response.end('Rota de listagem de tickets');
-        }
+        controller: list
     },
     {
         method: 'POST',
         path: '/tickets',
-        controller: (request, response) => {
-            response.end('Rota de criação de tickets');
-        }
+        controller: create
     }
 ]

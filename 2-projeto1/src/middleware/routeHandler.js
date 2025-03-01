@@ -9,5 +9,5 @@ export function routeHandler(request, response) {
         response.writeHead(404).end();
     }
 
-    route.controller(request, response);
+    route.controller({request, response});
 }

@@ -11,5 +11,5 @@ export const tickets = [
         method: 'POST',
         path: '/tickets',
         controller: create
-    }
+    },
 ]

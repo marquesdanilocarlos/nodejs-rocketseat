@@ -46,4 +46,15 @@ export default class Database {
 
         });
     }
+
+    update(table, id, data) {
+        const rowIndex = this.#database[table].findIndex(row => row.id === id);
+
+        if (rowIndex < 0) {
+            return;
+        }
+
+        this.#database[table][rowIndex] = {...this.#database[table][rowIndex], ...data};
+        this.#persist();
+    }
 }

@@ -16,22 +16,13 @@ export default class ProductsController {
     }
 
     create(request: Request, response: Response) {
-        try {
+        const bodySchema: ZodObject<ZodRawShape> = z.object({
+            name: z.string(),
+            price: z.number()
+        });
 
-            const bodySchema: ZodObject<ZodRawShape> = z.object({
-                name: z.string(),
-                price: z.number()
-            });
+        const {name, price} = bodySchema.parse(request.body);
 
-            const {name, price} = bodySchema.parse(request.body);
-
-            response.status(201).json({name, price});
-        } catch (error) {
-            if (error instanceof ZodError) {
-                response.status(400).json(error.errors);
-            }
-        }
-
-
+        response.status(201).json({name, price});
     }
 }

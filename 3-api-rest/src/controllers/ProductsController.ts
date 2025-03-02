@@ -17,8 +17,8 @@ export default class ProductsController {
 
     create(request: Request, response: Response) {
         const bodySchema: ZodObject<ZodRawShape> = z.object({
-            name: z.string(),
-            price: z.number(),
+            name: z.string({required_error: "Nome é obrigatório."}),
+            price: z.number({required_error: "Preço é obrigatório."}),
             description: z.string().nullish()
         });
 

@@ -17,8 +17,12 @@ export default class ProductsController {
 
     create(request: Request, response: Response) {
         const bodySchema: ZodObject<ZodRawShape> = z.object({
-            name: z.string({required_error: "Nome é obrigatório."}),
-            price: z.number({required_error: "Preço é obrigatório."}),
+            name: z.string({required_error: "Nome é obrigatório."})
+                .trim()
+                .min(6, {message: "O nome deve ter no mínimo 6 caracteres."}),
+            price: z.number({required_error: "Preço é obrigatório."})
+                .positive({message: "O preço deve ser positivo."})
+                .gte(10, {message: "O preço deve ser maior ou igual a R$ 10,00."}),
             description: z.string().nullish()
         });
 

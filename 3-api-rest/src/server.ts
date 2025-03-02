@@ -1,8 +1,10 @@
 import express, {Request, Response} from 'express';
+import myMiddleware from "./middlewares/myMiddleware";
 
 const PORT: number = 3333;
 const app = express();
 app.use(express.json());
+app.use(myMiddleware);
 
 
 app.get("/products", (request: Request, response: Response) => {

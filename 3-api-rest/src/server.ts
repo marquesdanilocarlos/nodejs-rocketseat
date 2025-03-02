@@ -1,4 +1,4 @@
-import express, {Express, NextFunction, Request, Response} from 'express';
+import express, {Express} from 'express';
 import router from "./routes";
 import myMiddleware from "./middlewares/myMiddleware";
 import AppError from "./exceptions/AppError";

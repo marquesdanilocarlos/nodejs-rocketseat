@@ -18,7 +18,9 @@ export default class ProductsController {
     create(request: Request, response: Response) {
         const {name, price} = request.body;
 
-        throw new AppError('Erro ao criar produto');
+        if (!name || !price) {
+            throw new AppError('Nome e preço do produto são obrigatórios.');
+        }
 
         response.status(201).json({name, price});
     }

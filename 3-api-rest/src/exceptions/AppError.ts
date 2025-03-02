@@ -4,7 +4,7 @@ export default class AppError extends Error{
     message: string;
     statusCode: number;
 
-    constructor(message: string = 'Erro!', statusCode: number = 400) {
+    constructor(message: string = 'Erro interno do servidor.', statusCode: number = 400) {
         super();
         this.message = message;
         this.statusCode = statusCode;

@@ -1,4 +1,4 @@
-import express, {Express} from 'express';
+import express, {Express, NextFunction, Request, Response} from 'express';
 import router from "./routes";
 import myMiddleware from "./middlewares/myMiddleware";
 
@@ -13,6 +13,9 @@ app.use(myMiddleware);
 //Utilizar arquivo de rotas
 app.use(router);
 
-
+//Tratamento de exceptions
+app.use((error: Error, request: Request, response: Response, next: NextFunction) => {
+    response.status(500).json({message: error.message})
+});
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

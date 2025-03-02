@@ -16,8 +16,9 @@ export default class ProductsController {
     
     create(request: Request, response: Response) {
         const {name, price} = request.body;
-        const requestId = request.user_id;
-        //response.send(`Produto ${name} custa ${price}`);
-        response.status(201).json({name, price, requestId});
+
+        throw new Error('Erro ao criar produto');
+
+        response.status(201).json({name, price});
     }
 }

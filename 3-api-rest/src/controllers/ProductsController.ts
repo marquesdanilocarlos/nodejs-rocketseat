@@ -18,7 +18,8 @@ export default class ProductsController {
     create(request: Request, response: Response) {
         const bodySchema: ZodObject<ZodRawShape> = z.object({
             name: z.string(),
-            price: z.number()
+            price: z.number(),
+            description: z.string().nullish()
         });
 
         const {name, price} = bodySchema.parse(request.body);

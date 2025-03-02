@@ -1,18 +1,10 @@
 import {Request, Response, Router} from 'express';
-const productsRouter = Router();
+import ProductsController from "../controllers/ProductsController";
 
-productsRouter.get("/:id", (request: Request, response: Response) => {
-    const {page, limit} = request.query;
-    const {id} = request.params;
-    response.send(`Página ${page} com limit ${limit} - ID: ${id}`);
+const productsRouter: Router = Router();
+const productsController = new ProductsController();
 
-});
-
-productsRouter.post("/" ,(request: Request, response: Response) => {
-    const {name, price} = request.body;
-    const requestId = request.user_id;
-    //response.send(`Produto ${name} custa ${price}`);
-    response.status(201).json({name, price, requestId});
-})
+productsRouter.get("/", productsController.index);
+productsRouter.post("/", productsController.create);
 
 export default productsRouter;

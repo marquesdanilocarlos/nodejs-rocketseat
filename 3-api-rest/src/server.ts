@@ -1,9 +1,9 @@
-import express from 'express';
+import express, {Express} from 'express';
 import router from "./routes";
 import myMiddleware from "./middlewares/myMiddleware";
 
 const PORT: number = 3333;
-const app = express();
+const app: Express = express();
 //Definir formato das requisições como json
 app.use(express.json());
 

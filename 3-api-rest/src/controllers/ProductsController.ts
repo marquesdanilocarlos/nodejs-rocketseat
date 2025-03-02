@@ -7,21 +7,31 @@
  * remove - DELETE para deletar um registro
  */
 import {Request, Response} from 'express';
-import AppError from "../errors/AppError";
+import {z, ZodObject, ZodRawShape, ZodError} from 'zod';
 
 export default class ProductsController {
     index(request: Request, response: Response) {
         const {page, limit} = request.query;
         response.send(`Página ${page} com limit ${limit}`);
     }
-    
-    create(request: Request, response: Response) {
-        const {name, price} = request.body;
 
-        if (!name || !price) {
-            throw new AppError('Nome e preço do produto são obrigatórios.');
+    create(request: Request, response: Response) {
+        try {
+
+            const bodySchema: ZodObject<ZodRawShape> = z.object({
+                name: z.string(),
+                price: z.number()
+            });
+
+            const {name, price} = bodySchema.parse(request.body);
+
+            response.status(201).json({name, price});
+        } catch (error) {
+            if (error instanceof ZodError) {
+                response.status(400).json(error.errors);
+            }
         }
 
-        response.status(201).json({name, price});
+
     }
 }

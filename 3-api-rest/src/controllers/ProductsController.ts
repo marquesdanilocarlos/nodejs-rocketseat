@@ -7,6 +7,7 @@
  * remove - DELETE para deletar um registro
  */
 import {Request, Response} from 'express';
+import AppError from "../exceptions/AppError";
 
 export default class ProductsController {
     index(request: Request, response: Response) {
@@ -17,7 +18,7 @@ export default class ProductsController {
     create(request: Request, response: Response) {
         const {name, price} = request.body;
 
-        throw new Error('Erro ao criar produto');
+        throw new AppError('Erro ao criar produto');
 
         response.status(201).json({name, price});
     }

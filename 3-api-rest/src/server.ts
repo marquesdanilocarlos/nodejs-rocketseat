@@ -1,6 +1,7 @@
 import express, {Express, NextFunction, Request, Response} from 'express';
 import router from "./routes";
 import myMiddleware from "./middlewares/myMiddleware";
+import AppError from "./exceptions/AppError";
 
 const PORT: number = 3333;
 const app: Express = express();
@@ -14,8 +15,6 @@ app.use(myMiddleware);
 app.use(router);
 
 //Tratamento de exceptions
-app.use((error: Error, request: Request, response: Response, next: NextFunction) => {
-    response.status(500).json({message: error.message})
-});
+app.use(AppError.exceptionHandler);
 
 app.listen(PORT, () => console.log(`Server running on port ${PORT}`));

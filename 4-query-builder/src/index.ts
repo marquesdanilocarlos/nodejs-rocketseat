@@ -57,4 +57,14 @@ app.get('/modules', async (request: Request, response: Response): Promise<void> 
     response.status(200).json(modules);
 });
 
+
+app.get('/courses/:id/modules', async (request: Request, response: Response): Promise<void> => {
+    const courses: any[] = await knex('courses')
+        .select('courses.id', 'courses.name', 'course_modules.name as module_name')
+        .join('course_modules', 'courses.id', 'course_modules.course_id')
+        .where('courses.id', request.params.id);
+    response.status(200).json(courses);
+});
+
+
 app.listen(3333);

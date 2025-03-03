@@ -32,4 +32,13 @@ app.put('/courses/:id', async (request: Request, response: Response): Promise<vo
     response.status(200).json();
 });
 
+
+app.delete('/courses/:id', async (request: Request, response: Response): Promise<void> => {
+    const {id} = request.params;
+
+    await knex('courses').where({id}).del();
+
+    response.status(200).json();
+})
+
 app.listen(3333);

@@ -14,4 +14,13 @@ app.post('/courses', async(request: Request, response: Response):Promise<void> =
     response.status(201).json({name});
 });
 
+
+app.get('/courses', async(request: Request, response: Response):Promise<void> => {
+   const courses = await knex('courses')
+       .select()
+       .orderBy('created_at', 'desc');
+
+   response.json(courses);
+});
+
 app.listen(3333);

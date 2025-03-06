@@ -7,7 +7,15 @@ import knexInstance from "@/database/knex";
 export default class ProductsController {
     @CatchError()
     public async index(req: Request, res: Response, next: NextFunction): Promise<any> {
-        return res.json({message: 'Products list'});
+
+        const {name} = req.query;
+
+        const products = await knexInstance<ProductRepository[]>('products')
+            .select()
+            .orderBy('name')
+            .where('name', 'like', `%${name ?? ''}%`);
+
+        return res.json(products);
     }
 
     @CatchError()

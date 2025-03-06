@@ -1,4 +1,4 @@
-type ProductRepository = {
+type ProductType = {
     id: number;
     name: string;
     price: number;

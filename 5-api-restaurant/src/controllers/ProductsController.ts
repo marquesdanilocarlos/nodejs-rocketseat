@@ -1,6 +1,7 @@
 import {NextFunction, Request, Response} from 'express';
 import {CatchError} from "@/decorators/CatchError";
 import bodySchema from "@/validators/productValidator";
+import knexInstance from "@/database/knex";
 
 
 export default class ProductsController {
@@ -12,7 +13,9 @@ export default class ProductsController {
     @CatchError()
     public async create(req: Request, res: Response, next: NextFunction): Promise<any> {
         const {name, price} = bodySchema.parse(req.body);
-        console.log(name, price);
-        return res.status(201).json({name, price});
+
+        await knexInstance<ProductRepository>('products').insert({name, price});
+
+        return res.status(201).json();
     }
 }

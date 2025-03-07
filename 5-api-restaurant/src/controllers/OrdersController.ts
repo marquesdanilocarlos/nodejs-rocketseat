@@ -25,7 +25,9 @@ export default class OrdersController {
             throw new AppError('Este produto não existe.');
         }
 
-        return res.status(201).json({table_session_id, product_id, quantity});
+        await knexInstance<OrderType>('orders').insert({table_session_id, product_id, quantity, price: product.price});
+
+        return res.status(201).json();
 
     }
 }

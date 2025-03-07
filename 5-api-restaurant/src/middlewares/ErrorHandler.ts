@@ -4,6 +4,8 @@ import {ZodError} from 'zod';
 
 export default function errorHandler(error: Error, req: Request, res: Response, next: NextFunction): Response {
 
+    console.log(Object.getPrototypeOf(error));
+
     if (error instanceof AppError) {
         return res.status(error.statusCode).json({message: error.message});
     }
@@ -12,5 +14,5 @@ export default function errorHandler(error: Error, req: Request, res: Response, 
         return res.status(400).json({message: 'Erro de validação', issues: error.format()});
     }
 
-    return res.status(500).json({message: 'Erro interno do servidor.'});
+    return res.status(500).json({message: error.message});
 }

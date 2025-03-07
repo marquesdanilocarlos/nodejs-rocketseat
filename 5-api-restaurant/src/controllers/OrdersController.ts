@@ -1,6 +1,6 @@
-import { Request, Response, NextFunction } from 'express';
+import {Request, Response, NextFunction} from 'express';
 import {CatchError} from "@/decorators/CatchError";
-import bodySchema from "@/validators/orderValidator";
+import bodySchema, {idValidator} from "@/validators/orderValidator";
 import knexInstance from "@/database/knex";
 import AppError from "@/errors/AppError";
 
@@ -29,5 +29,23 @@ export default class OrdersController {
 
         return res.status(201).json();
 
+    }
+
+    @CatchError()
+    async index(req: Request, res: Response, next: NextFunction): Promise<any> {
+
+        const tableSessionId: number = idValidator.parse(req.params.table_session_id);
+
+        const orders: OrderType[] = await knexInstance<OrderType>('orders')
+            .select(
+                'orders.*',
+                'products.name',
+                knexInstance.raw('orders.price * orders.quantity as total')
+            )
+            .innerJoin('products', 'products.id', 'orders.product_id')
+            .where({table_session_id: tableSessionId})
+            .orderBy('orders.created_at', 'desc');
+
+        return res.json({orders});
     }
 }

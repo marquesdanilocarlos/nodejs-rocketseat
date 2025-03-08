@@ -3,7 +3,9 @@ import prisma from "@/prisma";
 
 class UsersController {
   async index(request: Request, response: Response) {
-    return response.json({message: 'caralho'})
+    const users = await prisma.user.findMany();
+
+    return response.json(users);
   }
 
   async create(request: Request, response: Response) {

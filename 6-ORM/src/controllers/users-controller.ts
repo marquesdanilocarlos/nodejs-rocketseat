@@ -1,5 +1,5 @@
 import { Request, Response } from "express"
-import {AppError} from "@/errorHandler";
+import prisma from "@/prisma";
 
 class UsersController {
   async index(request: Request, response: Response) {
@@ -7,7 +7,11 @@ class UsersController {
   }
 
   async create(request: Request, response: Response) {
-    return response.status(201).json()
+    const {name, email} = request.body;
+
+    await prisma.user.create({data: {name, email}});
+
+    return response.status(201).json({name, email});
   }
 
   async show(request: Request, response: Response) {

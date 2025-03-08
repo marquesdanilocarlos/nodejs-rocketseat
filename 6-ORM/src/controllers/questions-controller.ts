@@ -27,11 +27,19 @@ class QuestionsController {
     }
 
     async update(request: Request, response: Response) {
-        return response.json()
+        const {id} = request.params;
+        const {title, content} = request.body;
+
+        await prisma.question.update({
+            data: {title, content},
+            where: {id}
+        });
+
+        return response.json();
     }
 
     async remove(request: Request, response: Response) {
-        return response.json()
+        return response.json();
     }
 }
 

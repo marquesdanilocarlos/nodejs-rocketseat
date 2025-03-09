@@ -8,6 +8,7 @@ app.use(express.json());
 
 app.use(router);
 
+//@ts-ignore
 app.use(AppError.errorHandler);
 
 app.listen(3333, () => {

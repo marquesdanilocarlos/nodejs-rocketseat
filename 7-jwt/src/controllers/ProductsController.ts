@@ -5,6 +5,6 @@ export default class ProductsController {
     }
 
     async create(request: Request, response: Response): Promise<any> {
-        return response.status(201).json({message: request.user?.userId});
+        return response.status(201).json({message: request.user});
     }
 }

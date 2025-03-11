@@ -11,7 +11,8 @@ export default class SessionsController {
         const fakeUser = {
             id: "1",
             username: "danilo",
-            password: "123456"
+            password: "123456",
+            role: "admin"
 
         };
 
@@ -19,11 +20,11 @@ export default class SessionsController {
             throw new AppError("Usuário ou senha incorretos.", 401);
         }
         const {secret} = authConfig.jwt;
-        const token = sign({}, secret, {
+        const token = sign({role: fakeUser.role}, secret, {
             expiresIn: authConfig.jwt.expiresIn,
             subject: String(fakeUser.id)
         });
 
-        return response.status(201).json(token);
+        return response.status(201).json({token});
     }
 }

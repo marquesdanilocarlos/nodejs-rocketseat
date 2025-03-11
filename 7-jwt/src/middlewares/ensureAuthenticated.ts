@@ -3,6 +3,11 @@ import AppError from "@/error/AppError";
 import {verify} from "jsonwebtoken";
 import authConfig from "@/config/auth";
 
+interface TokenPayload {
+    role: string,
+    sub: string
+}
+
 export default function ensureAuthenticated(req: Request, res: Response, next: NextFunction) {
     const authHeader = req.headers.authorization;
 
@@ -11,10 +16,11 @@ export default function ensureAuthenticated(req: Request, res: Response, next: N
     }
 
     const [,authToken] = authHeader.split(" ");
-    const {sub: userId} = verify(authToken, authConfig.jwt.secret);
+    const {sub: userId, role} = verify(authToken, authConfig.jwt.secret) as TokenPayload;
 
     req.user = {
-        userId: String(userId)
+        userId: String(userId),
+        role
     }
 
     return next();

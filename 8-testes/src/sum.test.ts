@@ -1,10 +1,16 @@
 import {sum} from "./index";
 
 describe('sum', () => {
+    let sumResult: number;
+
+    beforeAll(() => {
+        sumResult = 10;
+    });
+
     test('sum must be 10', () => {
         const result = sum(3, 7);
 
-        expect(result).toBe(10);
+        expect(result).toBe(sumResult);
     });
 
     it('should do the sum with result 4', () => {

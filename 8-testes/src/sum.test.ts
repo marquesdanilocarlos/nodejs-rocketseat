@@ -7,6 +7,10 @@ describe('sum', () => {
         sumResult = 10;
     });
 
+    afterAll(() => {
+        console.log('Executado depois dos testes.');
+    });
+
     test('sum must be 10', () => {
         const result = sum(3, 7);
 

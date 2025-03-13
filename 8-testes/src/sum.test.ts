@@ -1,4 +1,4 @@
-import {sum} from "./index";
+import {sum} from "./sum";
 
 describe('sum', () => {
     let sumResult: number;

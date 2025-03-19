@@ -17,7 +17,7 @@ export default class AppError extends Error {
         }
 
         if (error instanceof ZodError) {
-            return res.status(400).json({
+            return res.status(422).json({
                 message: "Erro de validação",
                 errors: error.format()
             });

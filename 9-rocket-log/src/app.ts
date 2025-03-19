@@ -7,9 +7,9 @@ const app = express();
 
 app.use(express.json());
 
+app.use(routes);
+
 /*@ts-ignore*/
 app.use(AppError.errorHandler)
-
-app.use(routes);
 
 export default app;

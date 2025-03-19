@@ -10,12 +10,14 @@
   "description": "API de entrega de encomendas",
   "dependencies": {
     "@prisma/client": "^6.5.0",
+    "bcryptjs": "^3.0.2",
     "express": "^4.21.2",
     "express-async-errors": "^3.1.1",
     "prisma": "^6.5.0",
     "zod": "^3.24.2"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/express": "^5.0.0",
     "@types/node": "^22.13.10",
     "tsx": "^4.19.3",

@@ -1,21 +1,34 @@
 FROM node:current-alpine
 
-#Define o diretório que a aplicação ficará dentro do container
+# Define o diretório de trabalho
 WORKDIR /app
 
-# Copiar os arquivos de dependências primeiro (para aproveitar cache)
+# Instala dependências do sistema para Prisma
+RUN apk add --no-cache \
+  bash \
+  curl \
+  python3 \
+  openssl \
+  openssl-dev \
+  libc6-compat
+
+# Copia apenas os arquivos de dependência primeiro para melhor aproveitamento do cache
 COPY package*.json ./
 
-#Copia o conteúdo do diretório onde está o arquivo Dockerfile para o WORKDIR
-COPY . .
-
-#Executa o comando de instalação das dependências
+# Instala as dependências do projeto
 RUN npm install
 
-#Define a porta que permitirá ser acessada de fora do container
+# Copia o restante dos arquivos
+COPY . .
+
+# Define a engine correta para o Prisma no Alpine
+ENV PRISMA_CLI_BINARY_TARGETS=linux-musl
+
+# Gera o Prisma Client
+RUN npx prisma generate
+
+# Expõe a porta
 EXPOSE 3333
 
-#Executa o comando de execução do servidor
-#RUN npm run dev
-
+# Comando para rodar a aplicação
 CMD ["npm", "run", "dev"]

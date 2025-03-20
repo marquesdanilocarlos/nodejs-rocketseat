@@ -18,6 +18,6 @@ export default class UsersController {
         user = await prisma.user.create({data: {name, email, password: hashedPassword}});
 
         const {password: _, ...userWithoutPassword} = user;
-        return response.json(userWithoutPassword);
+        return response.status(201).json(userWithoutPassword);
     }
 }

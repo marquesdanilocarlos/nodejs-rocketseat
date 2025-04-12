@@ -3,6 +3,8 @@ import prisma from "@/database/prisma";
 import authValidator from "@/validators/authValidator";
 import AppError from "@/error/AppError";
 import bcrypt from "bcryptjs";
+import authConfig from "@/config/auth";
+import {sign} from "jsonwebtoken";
 
 export default class AuthController {
     async login(request: Request, response: Response): Promise<any> {
@@ -22,6 +24,13 @@ export default class AuthController {
             throw new AppError(errorMessage, 401);
         }
 
-        return response.json({message: 'Autenticado com sucesso.'});
+        const {secret, expiresIn} = authConfig.jwt;
+        const token = sign({role: user.role ?? 'customer'}, secret, {
+            subject: user.id,
+            expiresIn:expiresIn
+        });
+        const {password: _, ...userWithoutPassword} = user;
+
+        return response.json({token, ...userWithoutPassword});
     }
 }

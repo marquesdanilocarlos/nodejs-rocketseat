@@ -4,7 +4,7 @@ import authValidator from "@/validators/authValidator";
 import AppError from "@/error/AppError";
 import bcrypt from "bcryptjs";
 import authConfig from "@/config/auth";
-import {sign} from "jsonwebtoken";
+import { sign } from "jsonwebtoken";
 
 export default class AuthController {
     async login(request: Request, response: Response): Promise<any> {
@@ -25,10 +25,12 @@ export default class AuthController {
         }
 
         const {secret, expiresIn} = authConfig.jwt;
+        /*@ts-ignore*/
         const token = sign({role: user.role ?? 'customer'}, secret, {
-            subject: user.id,
-            expiresIn:expiresIn
+            expiresIn: expiresIn,
+            subject: user.id
         });
+
         const {password: _, ...userWithoutPassword} = user;
 
         return response.json({token, ...userWithoutPassword});

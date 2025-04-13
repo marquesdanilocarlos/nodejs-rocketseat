@@ -8,7 +8,7 @@ interface TokenPayload {
     role: string;
 }
 
-export default function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
+export function ensureAuthenticated(request: Request, response: Response, next: NextFunction) {
     const authHeader = request.headers.authorization;
 
     if (!authHeader) {
@@ -24,4 +24,17 @@ export default function ensureAuthenticated(request: Request, response: Response
     }
 
     return next();
+}
+
+export function verifyUserAuthorization(roles: string[]) {
+
+    return (request: Request, response: Response, next: NextFunction) => {
+        const {user} = request;
+
+        if (!user || !roles.includes(user?.role)) {
+            throw new AppError('Não autorizado', 401);
+        }
+
+        return next();
+    };
 }

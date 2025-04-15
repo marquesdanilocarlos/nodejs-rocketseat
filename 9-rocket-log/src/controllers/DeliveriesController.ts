@@ -1,5 +1,5 @@
 import {Request, Response} from "express";
-import deliveriesValidator from "@/validators/deliveriesValidator";
+import {createValidator, updateParamsValidator, updateStatusValidator} from "@/validators/deliveriesValidator";
 import prisma from "@/database/prisma";
 
 export default class DeliveriesController {
@@ -18,10 +18,19 @@ export default class DeliveriesController {
     }
 
     async create(request: Request, response: Response): Promise<any> {
-        const {userId, description} = deliveriesValidator.parse(request.body);
+        const {userId, description} = createValidator.parse(request.body);
 
         await prisma.delivery.create({data: {userId, description}});
 
         return response.status(201).json();
+    }
+
+    async updateStatus(request: Request, response: Response): Promise<any> {
+        const {id} = updateParamsValidator.parse(request.params);
+        const {status} = updateStatusValidator.parse(request.body);
+
+        await prisma.delivery.update({where: {id}, data: {status}});
+
+        return response.json();
     }
 }

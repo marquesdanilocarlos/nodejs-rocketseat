@@ -1,12 +1,12 @@
 import {Request, Response} from "express";
-import logsValidator from "@/validators/logsValidator";
+import {createValidator, showParamsValidator} from "@/validators/logsValidator";
 import prisma from "@/database/prisma";
 import AppError from "@/error/AppError";
 
 export default class LogsController {
     async create(request: Request, response: Response): Promise<any> {
 
-        const {deliveryId, description} = logsValidator.parse(request.body);
+        const {deliveryId, description} = createValidator.parse(request.body);
         const delivery = await prisma.delivery.findUnique({where: {id: deliveryId}});
 
         if (!delivery) {
@@ -25,5 +25,16 @@ export default class LogsController {
         });
 
         return response.status(201).json();
+    }
+
+    async show(request: Request, response: Response): Promise<any> {
+        const {deliveryId} = showParamsValidator.parse(request.params);
+        const delivery = await prisma.delivery.findUnique({where: {id: deliveryId}});
+
+        if (request.user?.role === 'customer' && delivery?.userId !== request.user?.id) {
+            throw new AppError('Você não pode visualizar este pedido.', 401);
+        }
+
+        return response.json(delivery);
     }
 }

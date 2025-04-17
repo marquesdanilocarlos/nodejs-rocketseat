@@ -17,6 +17,10 @@ export default class LogsController {
             throw new AppError('Pedido ainda não enviado');
         }
 
+        if (delivery.status === 'delivered') {
+            throw new AppError('Esse pedido já foi entregue.');
+        }
+
         await prisma.deliveryLog.create({
             data: {
                 deliveryId,

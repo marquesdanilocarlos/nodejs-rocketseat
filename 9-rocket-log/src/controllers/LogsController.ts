@@ -29,7 +29,13 @@ export default class LogsController {
 
     async show(request: Request, response: Response): Promise<any> {
         const {deliveryId} = showParamsValidator.parse(request.params);
-        const delivery = await prisma.delivery.findUnique({where: {id: deliveryId}});
+        const delivery = await prisma.delivery.findUnique({
+            where: {id: deliveryId},
+            include: {
+                user: true,
+                logs: true
+            }
+        });
 
         if (request.user?.role === 'customer' && delivery?.userId !== request.user?.id) {
             throw new AppError('Você não pode visualizar este pedido.', 401);

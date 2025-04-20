@@ -1,8 +1,16 @@
 import request from "supertest";
 import app from "@/app";
+import prisma from "@/database/prisma";
 
 describe('AuthController', () => {
     let userId: string;
+
+    afterAll(async () => {
+        await prisma.user.delete({
+            where: {id: userId}
+        });
+    });
+
     it('should authenticate and get access token', async() => {
         const userResponse = await request(app).post('/users').send({
             name: 'John Doe',

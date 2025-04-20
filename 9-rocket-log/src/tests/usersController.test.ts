@@ -36,4 +36,15 @@ describe("UsersController", () => {
         expect(response.status).toBe(400);
         expect(response.body.error).toBe('Já existe um usuário cadastrado com esse e-mail.');
     });
+
+    it('should throw error if em', async() => {
+        const response = await request(app).post('/users').send({
+            name: 'Teste email',
+            email: 'invalid-email',
+            password: '123456'
+        });
+
+        expect(response.status).toBe(422);
+        expect(response.body.message).toBe('Erro de validação');
+    });
 });

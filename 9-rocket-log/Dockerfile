@@ -1,5 +1,8 @@
 FROM node:current-alpine
 
+ARG PORT
+ENV PORT=${PORT}
+
 # Define o diretório de trabalho
 WORKDIR /app
 

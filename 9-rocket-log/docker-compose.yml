@@ -5,10 +5,12 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+      args:
+        PORT: ${PORT}
     image: nodejs-rocketseat
     container_name: api-nodejs-rocketseat
     ports:
-      - "3333:3333"
+      - "${PORT}:${PORT}"
     depends_on:
       - postgres
     volumes:

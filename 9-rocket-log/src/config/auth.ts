@@ -1,4 +1,4 @@
-import env from "@/env";
+import env from "@/validators/env";
 
 const authConfig = {
     jwt: {

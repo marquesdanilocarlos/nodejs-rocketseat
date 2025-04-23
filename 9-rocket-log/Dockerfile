@@ -18,11 +18,16 @@ RUN apk add --no-cache \
 # Copia apenas os arquivos de dependência primeiro para melhor aproveitamento do cache
 COPY package*.json ./
 
-# Instala as dependências do projeto
-RUN npm install
-
 # Copia o restante dos arquivos
 COPY . .
+
+# Instala as dependências do projeto
+RUN npm cache clean --force && \
+    rm -rf node_modules && \
+    npm install --include=dev --verbose && \
+    ls -la node_modules || (echo "Falha ao instalar dependências" && exit 1)
+
+RUN npm i -g tsx
 
 # Define a engine correta para o Prisma no Alpine
 ENV PRISMA_CLI_BINARY_TARGETS=linux-musl
@@ -31,7 +36,7 @@ ENV PRISMA_CLI_BINARY_TARGETS=linux-musl
 RUN npx prisma generate
 
 # Expõe a porta
-EXPOSE 3333
+EXPOSE ${PORT}
 
 # Comando para rodar a aplicação
 CMD ["npm", "run", "dev"]
